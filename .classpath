@@ -16,5 +16,11 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="WOFramework/WOLips"/>
+	<classpathentry kind="con" path="WOFramework/Ajax"/>
+	<classpathentry kind="con" path="WOFramework/JavaWebServicesSupport"/>
+	<classpathentry kind="con" path="WOFramework/ERJavaMail"/>
+	<classpathentry kind="con" path="WOFramework/ERRest"/>
+	<classpathentry kind="con" path="WOFramework/PostgresqlPlugIn"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
