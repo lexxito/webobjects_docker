@@ -8,6 +8,11 @@ import webobjects.docker.Application;
 import webobjects.docker.Session;
 
 public class BaseComponent extends ERXComponent {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public BaseComponent(WOContext context) {
 		super(context);
 	}
