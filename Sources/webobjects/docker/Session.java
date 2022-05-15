@@ -1,4 +1,4 @@
-package your.app;
+package webobjects.docker;
 
 import er.extensions.appserver.ERXSession;
 

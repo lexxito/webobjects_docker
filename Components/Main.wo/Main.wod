@@ -1,0 +1,11 @@
+ImageSample: WOImage {
+	alt = "ImageSample";
+	border = "0";
+	filename = "WO.jpeg";
+	height = "150";
+	width = "150";
+}
+
+InstanceId : WOString {
+	value = instanceId;
+}

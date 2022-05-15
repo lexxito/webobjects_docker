@@ -1,11 +1,11 @@
-package your.app.components;
+package webobjects.docker.components;
 
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXComponent;
 
-import your.app.Application;
-import your.app.Session;
+import webobjects.docker.Application;
+import webobjects.docker.Session;
 
 public class BaseComponent extends ERXComponent {
 	public BaseComponent(WOContext context) {
