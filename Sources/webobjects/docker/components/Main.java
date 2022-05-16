@@ -16,6 +16,6 @@ public class Main extends BaseComponent {
 	}
 	
 	public String instanceId() throws UnknownHostException {
-      return InetAddress.getLocalHost().getHostName();
+		return InetAddress.getLocalHost().getHostName();
     }
 }
