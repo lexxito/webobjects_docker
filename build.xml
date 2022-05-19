@@ -1,5 +1,5 @@
 <project name="webobjects_docker" default="build" basedir=".">
-	<target name="build" depends="init.build,build.woapp,javaclient,ssdd,war,split,package" />
+	<target name="build" depends="junit, build.woapp" />
 
 	<target name="install" depends="init.install,build.woapp,javaclient,ssdd,war,split,package" />
 
@@ -250,7 +250,7 @@
 		<taskdef name="wocompile" classname="org.objectstyle.woproject.ant.WOCompile" />
 
 		<mkdir dir="${test.build.dir}" />
-		<wocompile srcdir="${test.src.dir}" destdir="${test.build.dir}" encoding="utf8" debug="true" target="11" includeantruntime="true">
+		<wocompile srcdir="${test.src.dir}" destdir="${test.build.dir}" encoding="utf8" debug="true" includeantruntime="true">
 			<frameworks root="ProjectLocal" embed="false" eclipse="true" />
 			<frameworks root="External" embed="false" eclipse="true" />
 			<frameworks root="Local" embed="false" eclipse="true" />
