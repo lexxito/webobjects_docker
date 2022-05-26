@@ -22,6 +22,9 @@ FROM openjdk:11-oracle as java
 
 FROM httpd:2.4
 
+ARG LINK_BASE=apps
+ARG RESOURCES_PATH=/usr/local/apache2/htdocs/WebObjects
+
 # Compilation and installation of adaptor
 ENV buildDeps gcc make libc6-dev libpcre++-dev apache2-dev
 RUN  set -x \
@@ -38,14 +41,14 @@ RUN  set -x \
   && cd /tmp/wonder-master/Utilities/Adaptors/Apache2.4 \
   && mv mod_WebObjects.so /usr/local/apache2/modules/. \
   && mkdir /usr/local/apache2/htdocs/WebObjects \
-  && sed -ri 's#WebObjectsAlias /cgi-bin/WebObjects#WebObjectsAlias /apps/WebObjects#g' apache.conf \
-  && sed -ri 's#WebObjectsDocumentRoot LOCAL_LIBRARY_DIR/WebServer/Documents#WebObjectsDocumentRoot /usr/local/apache2/htdocs/WebObjects#g' apache.conf \
-  && echo "<Location /apps/WebObjects> \n\
+  && sed -ri 's#WebObjectsAlias /cgi-bin/WebObjects#WebObjectsAlias /'"$LINK_BASE"'/WebObjects#g' apache.conf \
+  && sed -ri 's#WebObjectsDocumentRoot LOCAL_LIBRARY_DIR/WebServer/Documents#WebObjectsDocumentRoot '"$RESOURCES_PATH"'#g' apache.conf \
+  && echo '<Location /'"$LINK_BASE"'/WebObjects> \n\
     Require all granted \n \
 </Location>\n \
 <Location /WebObjects>\n \
     Require all granted\n \
-</Location>" >> apache.conf \
+</Location>' >> apache.conf \
   && mv apache.conf /usr/local/apache2/conf/webobjects.conf \
   && echo "Include /usr/local/apache2/conf/webobjects.conf" >> /usr/local/apache2/conf/httpd.conf \
   && rm /tmp/master.tar.gz && rm -Rf /tmp/wonder-master \
@@ -67,10 +70,11 @@ RUN  mkdir -p /woapps \
   && tar xzf wotaskd.tar.gz && rm wotaskd.tar.gz  \
   && mkdir /var/log/webobjects
 
+#Copy compiled resources and place webserver resources to single place
 COPY --from=build /root/dist/webobjects_docker.woa /woapps/webobjects_docker.woa
+RUN ln -s /woapps/webobjects_docker.woa ${RESOURCES_PATH}/webobjects_docker.woa
 
-RUN ln -s /woapps/webobjects_docker.woa /usr/local/apache2/htdocs/WebObjects/webobjects_docker.woa
-
+COPY deploy/SiteConfig.xml /opt/Local/Library/WebObjects/Configuration/SiteConfig.xml
 COPY deploy/launchwo.sh /woapps/launchwo.sh
 RUN chmod +x /woapps/launchwo.sh
 
