@@ -1,7 +1,9 @@
 version: "3.9"
 services:
-  web:
-    build: .
+  allinont:
+    build:
+      context: .
+      dockerfile: deploy/dockerfiles/Dockerfile
     ports:
       - "80:80"
       - "1085:1085"
