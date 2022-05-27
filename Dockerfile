@@ -24,6 +24,7 @@ FROM httpd:2.4
 
 ARG LINK_BASE=apps
 ARG RESOURCES_PATH=/usr/local/apache2/htdocs/WebObjects
+ARG PROJECT_NAME=webobjects_docker.woa
 
 # Compilation and installation of adaptor
 ENV buildDeps gcc make libc6-dev libpcre++-dev apache2-dev
@@ -71,8 +72,8 @@ RUN  mkdir -p /woapps \
   && mkdir /var/log/webobjects
 
 #Copy compiled resources and place webserver resources to single place
-COPY --from=build /root/dist/webobjects_docker.woa /woapps/webobjects_docker.woa
-RUN ln -s /woapps/webobjects_docker.woa ${RESOURCES_PATH}/webobjects_docker.woa
+COPY --from=build /root/dist/${PROJECT_NAME} /woapps/${PROJECT_NAME}
+RUN ln -s /woapps/${PROJECT_NAME} ${RESOURCES_PATH}/${PROJECT_NAME}
 
 COPY deploy/SiteConfig.xml /opt/Local/Library/WebObjects/Configuration/SiteConfig.xml
 COPY deploy/launchwo.sh /woapps/launchwo.sh
