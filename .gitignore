@@ -2,3 +2,7 @@ bin/
 build/
 bintest/
 dist/
+
+#Keep only SiteConfig.xml for state
+deploy/woconig/*
+!deploy/woconig/SiteConfig.xml

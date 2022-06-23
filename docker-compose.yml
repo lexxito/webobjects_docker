@@ -3,8 +3,10 @@ services:
   allinont:
     build:
       context: .
-      dockerfile: deploy/dockerfiles/Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "80:80"
-      - "1085:1085"
       - "56789:56789"
+    volumes:
+      - ./WebServerResources:/usr/local/apache2/htdocs/WebObjects/wodockerapp.woa/Contents/WebServerResources
+      - ./deploy/woconig:/opt/Local/Library/WebObjects/Configuration
