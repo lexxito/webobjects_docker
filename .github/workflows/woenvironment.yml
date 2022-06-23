@@ -2,9 +2,9 @@ name: woenviornment workflow
 
 on:
   push:
-    branches: [ classical_webobjects_ant_scalable ]
+    branches: [ classical_webobjects_ant_allinone ]
   workflow_dispatch:
-    branches: [ classical_webobjects_ant_scalable ]
+    branches: [ classical_webobjects_ant_allinone ]
 
 jobs:
 
