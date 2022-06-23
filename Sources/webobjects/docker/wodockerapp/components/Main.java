@@ -1,4 +1,4 @@
-package webobjects.docker.components;
+package webobjects.docker.wodockerapp.components;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

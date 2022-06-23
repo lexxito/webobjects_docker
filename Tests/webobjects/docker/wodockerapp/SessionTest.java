@@ -1,4 +1,4 @@
-package webobjects.docker;
+package webobjects.docker.wodockerapp;
 
 import junit.framework.TestCase;
 

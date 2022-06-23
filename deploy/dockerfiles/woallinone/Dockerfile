@@ -1,30 +1,9 @@
-FROM frekele/ant:1.10.3-jdk8 as build
-
-#Installing WebObjects 5.4.3 naitive libraries 
-RUN wget https://jenkins.wocommunity.org/job/WOInstaller/lastSuccessfulBuild/artifact/Utilities/WOInstall/WOInstaller.jar
-RUN java -jar WOInstaller.jar 5.4.3 /opt || true
-
-#Installing Wonder libraries
-RUN wget https://jenkins.wocommunity.org/job/Wonder7/lastSuccessfulBuild/artifact/Root/Roots/Wonder-Frameworks.tar.gz
-RUN tar -xf Wonder-Frameworks.tar.gz  -C /opt/Library/Frameworks/
-
-#Download woproject.jar for compiling ant project
-RUN wget https://jenkins.wocommunity.org/job/WOLips410/ws/wolips/core/plugins/org.objectstyle.wolips.woproject/lib/woproject.jar -P /opt/ant/lib/
-
-COPY . .
-
-ENV PATH_WITH_SPACE "/opt/Library/Application Support/WOLips/wolips.properties"
-COPY deploy/wolips.properties $PATH_WITH_SPACE
-
-RUN ant -f build.xml -Duser.home=/opt -lib /opt/ant/lib/woproject.jar 
-
 FROM openjdk:11-oracle as java
 
 FROM httpd:2.4
 
 ARG LINK_BASE=apps
 ARG RESOURCES_PATH=/usr/local/apache2/htdocs/WebObjects
-ARG PROJECT_NAME=webobjects_docker.woa
 
 # Compilation and installation of adaptor
 ENV buildDeps gcc make libc6-dev libpcre++-dev apache2-dev
@@ -55,7 +34,7 @@ RUN  set -x \
   && rm /tmp/master.tar.gz && rm -Rf /tmp/wonder-master \
   && apt-get purge -y --auto-remove $buildDeps
 
-#COPY deploy/apache.conf /usr/local/apache2/conf/webobjects.conf
+#Copying java client 
 COPY --from=java /usr/java/openjdk* /usr/java
 
 RUN ln -s /usr/java/bin/java /usr/bin/java
@@ -71,11 +50,6 @@ RUN  mkdir -p /woapps \
   && tar xzf wotaskd.tar.gz && rm wotaskd.tar.gz  \
   && mkdir /var/log/webobjects
 
-#Copy compiled resources and place webserver resources to single place
-COPY --from=build /root/dist/${PROJECT_NAME} /woapps/${PROJECT_NAME}
-RUN ln -s /woapps/${PROJECT_NAME} ${RESOURCES_PATH}/${PROJECT_NAME}
-
-COPY deploy/SiteConfig.xml /opt/Local/Library/WebObjects/Configuration/SiteConfig.xml
 COPY deploy/launchwo.sh /woapps/launchwo.sh
 RUN chmod +x /woapps/launchwo.sh
 

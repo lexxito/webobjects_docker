@@ -1,4 +1,4 @@
-package webobjects.docker;
+package webobjects.docker.wodockerapp;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOApplication;
@@ -6,7 +6,7 @@ import com.webobjects.appserver.WORequest;
 
 import er.extensions.appserver.ERXDirectAction;
 
-import webobjects.docker.components.Main;
+import webobjects.docker.wodockerapp.components.Main;
 
 public class DirectAction extends ERXDirectAction {
 	public DirectAction(WORequest request) {

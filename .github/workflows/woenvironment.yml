@@ -1,0 +1,27 @@
+name: woenviornment workflow
+
+on:
+  push:
+    branches: [ classical_webobjects_ant_scalable ]
+  workflow_dispatch:
+    branches: [ classical_webobjects_ant_scalable ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: docker login
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USER}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+    - name: Build woantenvironment Docker image
+      run: docker build . --file deploy/dockerfiles/woantenvironment/Dockerfile --tag lexxito/woantenvironment:1.10.3-jdk8-wonder7.4
+      
+    - name: Docker Push woantenvironment image
+      run: docker push lexxito/woantenvironment:1.10.3-jdk8-wonder7.4

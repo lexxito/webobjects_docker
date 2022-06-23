@@ -1,4 +1,4 @@
-<project name="webobjects_docker" default="build" basedir=".">
+<project name="wodockerapp" default="build" basedir=".">
 	<target name="build" depends="junit, build.woapp" />
 
 	<target name="install" depends="init.install,build.woapp,javaclient,ssdd,war,split,package" />

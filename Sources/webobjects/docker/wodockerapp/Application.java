@@ -1,4 +1,4 @@
-package webobjects.docker;
+package webobjects.docker.wodockerapp;
 
 import er.extensions.appserver.ERXApplication;
 
