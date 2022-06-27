@@ -1,7 +1,8 @@
 # WODockerApp
-## _WebObjects deployment in Docker with everything in a single image_
+## _WebObjects deployment in Docker with each component separately containerized_
 
-The project aims to show how WebObjects applications can be run in Docker containers. The base and inspiration for this particular case are coming from the work of [alextu](https://github.com/alextu/wodocker). This deployment showcases how you can run all WebObjects components together with your application in a single container, in this case, you operate classical WebObjects deployment with a single host.
+The project aims to show how WebObjects applications can be run in Docker containers. The base and inspiration for this particular case are coming from the work of [alextu](https://github.com/alextu/wodocker). This deployment showcases how you can run all WebObjects components 
+on separate containers as well as scale only your application instances. This deployment can be run on multiple hosts and still keep the classical WebObjects interface.
 
 ## Demo App
 For demonsration porposes was created simple ant based application which includes:
@@ -22,14 +23,27 @@ The application's session is stored in cookies and the page is showing the hostn
 ### woantenvironment
 This image contains all WebObjects and Wonder Framewrods and WebObjects specific jars needed for application compilation. It is used as a preloaded image where the application can be packaged into a _woa_ project. 
 
-### woallinone
-This image is based on already [existing Dockerfile](https://github.com/alextu/wodocker/blob/master/Dockerfile) just with updated java and wonder versions. It includes apache2.4 with WebObjects Adaptor, JavaMonitor and wotaskd.
+### woapache
+This image contains apche2.4 webserver with WebObjects Adaptor on the top. With environmental variables, you can change application prefixes and WebServerResource location.
+
+### wotaskd
+This image contains wotaskd from wonder project. It is needed to run the application as well as to have the role of _load balancer_. Once wotaksd is running with _-WOSavesAdaptorConfiguration true_ option it creates a file _WOConfig.xml_ which is read by woapache dynamically and no restart is needed after a new host is added. 
+
+### womonitor
+This image contains womonitor from wonder project. It is needed as the interface to scale your application and to recreate all resources from SiteConfig.xml file after containers reboot. 
 
 ### Quick Start
+#### docker-compose
 To run the application for demonstration purposes simply use docker-compose
 ```sh
 docker-compose up
 ```
-This command will create a container where you can access the following endpoints:
+#### Docker Swarm
+The application can be also run in the docker swarm mode. In this case, you would be able to scale your application instances easier. 
+```sh
+docker swarm init
+docker stack deploy -c stack.yml webobjects
+```
+Each of these commands will create a stack with services that expose following endpoints:
  - _127.0.0.1:56789_ interface for JavaMonitor
  - _127.0.0.1/apps/WebObjects/wodockerapp.woa_ demo application which is already running due to SiteConfig.xml

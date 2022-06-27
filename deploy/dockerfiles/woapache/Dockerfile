@@ -1,5 +1,3 @@
-FROM openjdk:11-oracle as java
-
 FROM httpd:2.4
 
 ARG LINK_BASE=apps
@@ -23,6 +21,7 @@ RUN  set -x \
   && mkdir /usr/local/apache2/htdocs/WebObjects \
   && sed -ri 's#WebObjectsAlias /cgi-bin/WebObjects#WebObjectsAlias /'"$LINK_BASE"'/WebObjects#g' apache.conf \
   && sed -ri 's#WebObjectsDocumentRoot LOCAL_LIBRARY_DIR/WebServer/Documents#WebObjectsDocumentRoot '"$RESOURCES_PATH"'#g' apache.conf \
+  && sed -ri 's#WebObjectsConfig http://localhost:1085 10#WebObjectsConfig file:///opt/Local/Library/WebObjects/Configuration/WOConfig.xml 10#g' apache.conf \
   && echo '<Location /'"$LINK_BASE"'/WebObjects> \n\
     Require all granted \n \
 </Location>\n \
@@ -34,25 +33,4 @@ RUN  set -x \
   && rm /tmp/master.tar.gz && rm -Rf /tmp/wonder-master \
   && apt-get purge -y --auto-remove $buildDeps
 
-#Copying java client 
-COPY --from=java /usr/java/openjdk* /usr/java
-
-RUN ln -s /usr/java/bin/java /usr/bin/java
-
-# Installation of wotaskd and javamonitor
-ENV NEXT_ROOT /opt
-
-RUN  mkdir -p /woapps \
-  && cd /woapps \
-  && curl -LOk https://jenkins.wocommunity.org/job/Wonder7/lastSuccessfulBuild/artifact/Root/Roots/JavaMonitor.tar.gz  \
-  && tar xzf JavaMonitor.tar.gz && rm JavaMonitor.tar.gz  \
-  && curl -LOk https://jenkins.wocommunity.org/job/Wonder7/lastSuccessfulBuild/artifact/Root/Roots/wotaskd.tar.gz  \
-  && tar xzf wotaskd.tar.gz && rm wotaskd.tar.gz  \
-  && mkdir /var/log/webobjects
-
-COPY deploy/launchwo.sh /woapps/launchwo.sh
-RUN chmod +x /woapps/launchwo.sh
-
-EXPOSE 80 1085 56789
-
-CMD ["/woapps/launchwo.sh"]
+CMD httpd-foreground

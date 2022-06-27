@@ -4,7 +4,7 @@ COPY . .
 
 RUN ant -f build.xml -Duser.home=/opt -lib /opt/ant/lib/woproject.jar 
 
-FROM lexxito/woallinone:apache2.4-wonder7.4
+FROM lexxito/wotaskd:7.4-jdk11
 
 ENV PROJECT_NAME=wodockerapp
 

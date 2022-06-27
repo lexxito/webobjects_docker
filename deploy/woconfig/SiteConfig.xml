@@ -2,7 +2,15 @@
 	<hostArray type="NSArray">
 		<element type="NSDictionary">
 			<type type="NSString">UNIX</type>
-			<name type="NSString">localhost</name>
+			<name type="NSString">taskbalancer</name>
+		</element>
+		<element type="NSDictionary">
+			<type type="NSString">UNIX</type>
+			<name type="NSString">worker1</name>
+		</element>
+		<element type="NSDictionary">
+			<type type="NSString">UNIX</type>
+			<name type="NSString">worker2</name>
 		</element>
 	</hostArray>
 	<applicationArray type="NSArray">
@@ -13,7 +21,7 @@
 			<adaptorThreads type="NSNumber">8</adaptorThreads>
 			<adaptor type="NSString">WODefaultAdaptor</adaptor>
 			<projectSearchPath type="NSString">()</projectSearchPath>
-			<autoRecover type="NSString">YES</autoRecover>
+			<statisticsPassword type="NSString"></statisticsPassword>
 			<autoOpenInBrowser type="NSString">NO</autoOpenInBrowser>
 			<listenQueueSize type="NSNumber">128</listenQueueSize>
 			<unixPath type="NSString">/woapps/wodockerapp.woa/wodockerapp</unixPath>
@@ -21,10 +29,10 @@
 			<sessionTimeOut type="NSNumber">3600</sessionTimeOut>
 			<debuggingEnabled type="NSString">NO</debuggingEnabled>
 			<phasedStartup type="NSString">YES</phasedStartup>
-			<name type="NSString">wodockerapp</name>
+			<autoRecover type="NSString">YES</autoRecover>
 			<notificationEmailEnabled type="NSString">NO</notificationEmailEnabled>
 			<lifebeatInterval type="NSNumber">30</lifebeatInterval>
-			<statisticsPassword type="NSString"></statisticsPassword>
+			<name type="NSString">wodockerapp</name>
 			<unixOutputPath type="NSString">/var/log/webobjects</unixOutputPath>
 			<minimumActiveSessionsCount type="NSNumber">0</minimumActiveSessionsCount>
 			<timeForStartup type="NSNumber">30</timeForStartup>
@@ -49,7 +57,29 @@
 			<schedulingInterval type="NSNumber">12</schedulingInterval>
 			<schedulingWeeklyStartTime type="NSNumber">3</schedulingWeeklyStartTime>
 			<applicationName type="NSString">wodockerapp</applicationName>
-			<hostName type="NSString">localhost</hostName>
+			<hostName type="NSString">worker1</hostName>
+			<minimumActiveSessionsCount type="NSNumber">0</minimumActiveSessionsCount>
+			<schedulingDailyStartTime type="NSNumber">3</schedulingDailyStartTime>
+		</element>
+		<element type="NSDictionary">
+			<port type="NSNumber">2001</port>
+			<cachingEnabled type="NSString">YES</cachingEnabled>
+			<path type="NSString">/woapps/wodockerapp.woa/wodockerapp</path>
+			<outputPath type="NSString">/var/log/webobjects/wodockerapp-2</outputPath>
+			<id type="NSNumber">2</id>
+			<schedulingHourlyStartTime type="NSNumber">3</schedulingHourlyStartTime>
+			<autoOpenInBrowser type="NSString">NO</autoOpenInBrowser>
+			<schedulingEnabled type="NSString">NO</schedulingEnabled>
+			<schedulingStartDay type="NSNumber">1</schedulingStartDay>
+			<debuggingEnabled type="NSString">NO</debuggingEnabled>
+			<gracefulScheduling type="NSString">YES</gracefulScheduling>
+			<autoRecover type="NSString">YES</autoRecover>
+			<lifebeatInterval type="NSNumber">30</lifebeatInterval>
+			<schedulingType type="NSString">DAILY</schedulingType>
+			<schedulingInterval type="NSNumber">12</schedulingInterval>
+			<schedulingWeeklyStartTime type="NSNumber">3</schedulingWeeklyStartTime>
+			<applicationName type="NSString">wodockerapp</applicationName>
+			<hostName type="NSString">worker2</hostName>
 			<minimumActiveSessionsCount type="NSNumber">0</minimumActiveSessionsCount>
 			<schedulingDailyStartTime type="NSNumber">3</schedulingDailyStartTime>
 		</element>
