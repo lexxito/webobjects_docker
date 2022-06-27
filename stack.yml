@@ -2,39 +2,36 @@ version: "3.9"
 services:
 
   apache:
-    build:
-      context: deploy/dockerfiles/woapache
-      dockerfile: Dockerfile
+    image: lexxito/woapache:2.4-wonder7.4
     ports:
       - "80:80"
     volumes:
       - ./WebServerResources:/usr/local/apache2/htdocs/WebObjects/wodockerapp.woa/Contents/WebServerResources
       - ./deploy/woconfig:/opt/Local/Library/WebObjects/Configuration
-
+    deploy:
+      replicas: 1
+      
   monitor:
-    build:
-      context: deploy/dockerfiles/womonitor
-      dockerfile: Dockerfile
+    image: lexxito/womonitor:7.4-jdk11
     ports:
       - "56789:56789"
     volumes:
       - ./deploy/woconfig:/opt/Local/Library/WebObjects/Configuration
-  
-  taskbalancer:
-    build:
-      context: deploy/dockerfiles/wotaskd
-      dockerfile: Dockerfile
+    deploy:
+      replicas: 1
+      
+  balancer:
+    hostname: "taskbalancer"
+    image: lexxito/wotaskd:7.4-jdk11
     environment:
       WEBOBJECTS_ARGS: -WOSavesAdaptorConfiguration true
     volumes:
       - ./deploy/woconfig:/opt/Local/Library/WebObjects/Configuration
-  
-  worker1:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    deploy:
+      replicas: 1
       
-  worker2:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  worker:
+    hostname: "worker{{.Task.Slot}}"
+    image: lexxito/wodockersample:wonder7.4-jdk11
+    deploy:
+      replicas: 2
