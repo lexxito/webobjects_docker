@@ -1,12 +1,40 @@
 version: "3.9"
 services:
-  allinont:
+
+  apache:
     build:
-      context: .
+      context: deploy/dockerfiles/woapache
       dockerfile: Dockerfile
     ports:
       - "80:80"
-      - "56789:56789"
     volumes:
       - ./WebServerResources:/usr/local/apache2/htdocs/WebObjects/wodockerapp.woa/Contents/WebServerResources
       - ./deploy/woconig:/opt/Local/Library/WebObjects/Configuration
+
+  monitor:
+    build:
+      context: deploy/dockerfiles/womonitor
+      dockerfile: Dockerfile
+    ports:
+      - "56789:56789"
+    volumes:
+      - ./deploy/woconig:/opt/Local/Library/WebObjects/Configuration
+  
+  taskbalancer:
+    build:
+      context: deploy/dockerfiles/wotaskd
+      dockerfile: Dockerfile
+    environment:
+      WEBOBJECTS_ARGS: -WOSavesAdaptorConfiguration true
+    volumes:
+      - ./deploy/woconig:/opt/Local/Library/WebObjects/Configuration
+  
+  worker1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      
+  worker2:
+    build:
+      context: .
+      dockerfile: Dockerfile

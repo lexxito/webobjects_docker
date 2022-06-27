@@ -1,0 +1,27 @@
+name: wodockersample workflow
+
+on:
+  push:
+    branches: [ classical_webobjects_ant_scalable ]
+  workflow_dispatch:
+    branches: [ classical_webobjects_ant_scalable ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: docker login
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USER}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+    - name: Build wodockersample Docker image
+      run: docker build . --file Dockerfile --tag lexxito/wodockersample:wonder7.4-jdk11
+      
+    - name: Docker Push wodockersample image
+      run: docker push lexxito/wodockersample:wonder7.4-jdk11

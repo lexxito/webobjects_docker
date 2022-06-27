@@ -3,9 +3,9 @@ name: woenviornment workflow
 on:
 # They are commented since it is very often downloading broken archive and you need to re-run job couple of times
 #  push:
-#    branches: [ classical_webobjects_ant_allinone ]
+#    branches: [ classical_webobjects_ant_scalable ]
   workflow_dispatch:
-    branches: [ classical_webobjects_ant_allinone ]
+    branches: [ classical_webobjects_ant_scalable ]
 
 jobs:
 
