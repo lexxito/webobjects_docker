@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  allinont:
+  allinone:
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,4 +9,4 @@ services:
       - "56789:56789"
     volumes:
       - ./WebServerResources:/usr/local/apache2/htdocs/WebObjects/wodockerapp.woa/Contents/WebServerResources
-      - ./deploy/woconig:/opt/Local/Library/WebObjects/Configuration
+      - ./deploy/woconfig:/opt/Local/Library/WebObjects/Configuration

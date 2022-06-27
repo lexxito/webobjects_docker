@@ -4,5 +4,5 @@ bintest/
 dist/
 
 #Keep only SiteConfig.xml for state
-deploy/woconig/*
-!deploy/woconig/SiteConfig.xml
+deploy/woconfig/*
+!deploy/woconfig/SiteConfig.xml
