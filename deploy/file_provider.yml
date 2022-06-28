@@ -1,0 +1,16 @@
+http:
+  routers:
+    router0:
+      service: webobjects
+      rule: "Host(`127.0.0.1`) || Host(`localhost`)"
+  services:
+    webobjects:
+      loadBalancer:
+        sticky:
+          cookie:
+            name: StickyCookie
+        servers:
+          - url: "http://worker1:2000/"
+          - url: "http://worker2:2000/"
+          - url: "http://worker3:2000/"
+          - url: "http://worker4:2000/"          
