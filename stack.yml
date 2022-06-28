@@ -26,7 +26,7 @@ services:
           - node.role == manager
   
   worker:
-    image: lexxito/wodockersample:jdk11
+    image: lexxito/wodockersample:mvn-jdk11
     hostname: "{{.Service.Name}}-{{.Task.Slot}}"
     networks:
       - proxy

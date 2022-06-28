@@ -1,11 +1,10 @@
 name: woenviornment workflow
 
 on:
-# They are commented since it is very often downloading broken archive and you need to re-run job couple of times
-#  push:
-#    branches: [ classical_webobjects_ant_scalable ]
+  push:
+    branches: [ minimized_webobjects_mvn_scalable ]
   workflow_dispatch:
-    branches: [ classical_webobjects_ant_scalable ]
+    branches: [ minimized_webobjects_mvn_scalable ]
 
 jobs:
 
@@ -21,8 +20,8 @@ jobs:
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
-    - name: Build woantenvironment Docker image
-      run: docker build . --file deploy/dockerfiles/woantenvironment/Dockerfile --tag lexxito/woantenvironment:1.10.3-jdk8-wonder7.4
+    - name: Build womvnenvironment Docker image
+      run: docker build . --file deploy/dockerfiles/womvnenvironment/Dockerfile --tag lexxito/womvnenvironment:3.8.5-openjdk-11-wonder7.3
       
-    - name: Docker Push woantenvironment image
-      run: docker push lexxito/woantenvironment:1.10.3-jdk8-wonder7.4
+    - name: Docker Push womvnenvironment image
+      run: docker push lexxito/womvnenvironment:3.8.5-openjdk-11-wonder7.3

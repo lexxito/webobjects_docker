@@ -1,13 +1,13 @@
-FROM lexxito/woantenvironment:1.10.3-jdk8-wonder7.4 as build
+FROM lexxito/womvnenvironment:3.8.5-openjdk-11-wonder7.3 as build
 
 COPY . .
 
-RUN ant -f build.xml -Duser.home=/opt -lib /opt/ant/lib/woproject.jar 
+RUN mvn package
 
 FROM openjdk:11-oracle
 
 ENV PROJECT_NAME=wodockerapp
-COPY --from=build /root/dist/${PROJECT_NAME}.woa /woapps/${PROJECT_NAME}.woa
+COPY --from=build /root/target/${PROJECT_NAME}.woa /woapps/${PROJECT_NAME}.woa
 
 ENV NEXT_ROOT=/
 
