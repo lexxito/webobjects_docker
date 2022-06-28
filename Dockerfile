@@ -2,13 +2,12 @@ FROM lexxito/womvnenvironment:3.8.5-openjdk-11-wonder7.3 as build
 
 COPY . .
 
-RUN mvn package
+RUN mvn -Pnoneclipse compile war:war
 
-FROM openjdk:11-oracle
+FROM jetty:9.4.46-jre11-openjdk
 
-ENV PROJECT_NAME=wodockerapp
-COPY --from=build /root/target/${PROJECT_NAME}.woa /woapps/${PROJECT_NAME}.woa
+#Billions of credits to this guy https://www.databasesandlife.com/activation-error-jetty-javamail-java11/
+#Opened issue for jetty https://github.com/eclipse/jetty.docker/issues/10
+RUN rm -r /usr/local/jetty/lib/mail
 
-ENV NEXT_ROOT=/
-
-CMD /woapps/${PROJECT_NAME}.woa/${PROJECT_NAME} -WODirectConnectEnabled YES -WOPort 2000 
+COPY --from=build /root/target/*.war /var/lib/jetty/webapps/ROOT.war

@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>webobjects.docker</groupId>
 	<artifactId>wodockerapp</artifactId>
-	<packaging>woapplication</packaging>
+	<packaging>war</packaging>
 	<version>0.1</version>
 	<name>woapplication WebObjects Application</name>
 	<url>http://maven.apache.org</url>
@@ -42,23 +42,64 @@
 					<target>${jvmtarget}</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.3.2</version>
+				<configuration>
+					<archiveClasses>true</archiveClasses>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.4.44.v20210927</version>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
 		<dependency>
+			<groupId>com.webobjects</groupId>
+			<artifactId>JavaWOJSPServlet</artifactId>
+			<version>${webobjects.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>wonder.core</groupId>
+			<artifactId>ERServlet</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
 			<groupId>wonder.ajax</groupId>
 			<artifactId>Ajax</artifactId>
 			<version>${wonder.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>${webobjects.groupId}</groupId>
+					<artifactId>JavaXML</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>${wonder.core.groupId}</groupId>
 			<artifactId>ERExtensions</artifactId>
 			<version>${wonder.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>${webobjects.groupId}</groupId>
+					<artifactId>JavaXML</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>${wonder.core.groupId}</groupId>
 			<artifactId>ERJavaMail</artifactId>
 			<version>${wonder.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>${webobjects.groupId}</groupId>
+					<artifactId>JavaXML</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>${webobjects.groupId}</groupId>
@@ -84,6 +125,12 @@
 			<groupId>${webobjects.groupId}</groupId>
 			<artifactId>JavaWebObjects</artifactId>
 			<version>${webobjects.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>${webobjects.groupId}</groupId>
+					<artifactId>JavaXML</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>${wonder.core.groupId}</groupId>
@@ -112,4 +159,26 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<profiles>
+		<profile>
+			<id>noneclipse</id>
+			<build>
+				<resources>
+					<resource>
+						<targetPath>Resources</targetPath>
+						<directory>${basedir}/src/main/resources</directory>
+					</resource>
+					<resource>
+						<targetPath>Resources</targetPath>
+						<directory>${basedir}/src/main/components</directory>
+					</resource>
+					<resource>
+						<targetPath>WebserverResources</targetPath>
+						<directory>${basedir}/src/main/webserver-resources</directory>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+	</profiles>
+
 </project>

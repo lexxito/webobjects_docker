@@ -2,9 +2,9 @@ name: wodockersample workflow
 
 on:
   push:
-    branches: [ minimized_webobjects_mvn_scalable ]
+    branches: [ minimized_webobjects_jetty_scalable ]
   workflow_dispatch:
-    branches: [ minimized_webobjects_mvn_scalable ]
+    branches: [ minimized_webobjects_jetty_scalable ]
 
 jobs:
 
@@ -21,7 +21,7 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
     - name: Build wodockersample Docker image
-      run: docker build . --file Dockerfile --tag lexxito/wodockersample:mvn-jdk11
+      run: docker build . --file Dockerfile --tag lexxito/wodockersample:jetty9.4.46-jre11
       
     - name: Docker Push wodockersample image
-      run: docker push lexxito/wodockersample:mvn-jdk11
+      run: docker push lexxito/wodockersample:jetty9.4.46-jre11
