@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>wodockerapp</string>
+	<key>CFBundleIconFile</key>
+	<string>WOAfile.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>wodockerapp</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>wodockerapp</string>
+	<key>CFBundlePackageType</key>
+	<string>FMWK</string>
+	<key>CFBundleShortVersionString</key>
+	<string>5.4.1</string>
+	<key>CFBundleSignature</key>
+	<string>webo</string>
+	<key>CFBundleVersion</key>
+	<string>5.4</string>
+	<key>Has_WOComponents</key>
+	<true/>
+	<key>Java</key>
+	<dict>
+		<key>JVMVersion</key>
+		<string>1.4+</string>
+	</dict>
+	<key>NSExecutable</key>
+	<string>wodockerapp</string>
+	<key>NSJavaClientRoot</key>
+	<string>WebServerResources/Java</string>
+	<key>NSJavaNeeded</key>
+	<true/>
+	<key>NSJavaPath</key>
+	<array>
+		<string>wodockerapp.jar</string>
+	</array>
+	<key>NSJavaPathClient</key>
+	<string>wodockerapp.jar</string>
+	<key>NSJavaRoot</key>
+	<string>Resources/Java</string>
+	<key>NSPrincipalClass</key>
+	<string>webobjects.docker.wodockerapp.Application</string>
+</dict>
+</plist>

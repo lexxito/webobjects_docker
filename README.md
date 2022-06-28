@@ -1,5 +1,5 @@
 # WODockerApp
-## _WebObjects mvn deployment in Docker with minimal amount of components_
+## _WebObjects mvn jetty deployment in Docker with minimal amount of components_
 
 The project aims to show how WebObjects applications can be run in Docker containers. This deployment showcases how you can run your WebObjects application on Docker on multiple hosts with a minimum amount of components and docker native scaling options.
 
@@ -16,8 +16,10 @@ Application versions:
 
 The application's session is stored in cookies and the page is showing the hostname of the instance it is running on.
 
-## Docker Images 
+## IDEA
+This version can be run on any other idea which supports mvn by running `mvn -Pnoneclipse compile war:war` command. In this case war file will be executed in jetty server and can be accessible via _localhost:8080/cgi-bin/WebObjects/wodockerapp.woa_
 
+## Docker Images 
 ### womvnenvironment
 This image contains all settings to have WebObjects mvn enabled and additionaly preloaded wonder7.4 and WebObjects5.4.3 frameworks. 
 
@@ -34,4 +36,4 @@ docker swarm init
 docker stack deploy -c stack.yml webobjects
 ```
 Each of these commands will create a stack with services that expose following endpoints:
- - _127.0.0.1/apps/WebObjects/wodockerapp.woa_ demo application which is already running.
+ - _127.0.0.1/cgi-bin/WebObjects/wodockerapp.woa_ demo application which is already running.

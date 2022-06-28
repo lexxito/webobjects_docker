@@ -26,7 +26,7 @@ services:
           - node.role == manager
   
   worker:
-    image: lexxito/wodockersample:mvn-jdk11
+    image: lexxito/wodockersample:jetty9.4.46-jre11
     hostname: "{{.Service.Name}}-{{.Task.Slot}}"
     networks:
       - proxy
@@ -36,7 +36,7 @@ services:
         - "traefik.enable=true"
         - "traefik.http.routers.worker.rule=Host(`127.0.0.1`) || Host(`localhost`)"
         - "traefik.http.routers.worker.entrypoints=web"
-        - "traefik.http.services.worker.loadbalancer.server.port=2000"
+        - "traefik.http.services.worker.loadbalancer.server.port=8080"
         - "traefik.http.services.worker.loadbalancer.sticky=true"
         - "traefik.http.services.worker.loadbalancer.sticky.cookie.name=StickyCookie"
 
