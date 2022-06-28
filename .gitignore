@@ -2,7 +2,4 @@ bin/
 build/
 bintest/
 dist/
-
-#Keep only SiteConfig.xml for state
-deploy/woconfig/*
-!deploy/woconfig/SiteConfig.xml
+target/
