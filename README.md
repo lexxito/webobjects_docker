@@ -34,4 +34,4 @@ docker swarm init
 docker stack deploy -c stack.yml webobjects
 ```
 Each of these commands will create a stack with services that expose following endpoints:
- - _127.0.0.1/apps/WebObjects/wodockerapp.woa_ demo application which is already running.
+ - _127.0.0.1/cgi-bin/WebObjects/wodockerapp.woa_ demo application which is already running.
