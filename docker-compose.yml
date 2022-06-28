@@ -1,40 +1,36 @@
-version: "3.9"
-services:
+version: '3.9'
 
-  apache:
-    build:
-      context: deploy/dockerfiles/woapache
-      dockerfile: Dockerfile
+services:
+  reverse-proxy:
+    image: traefik:v2.7
+    command: 
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false 
+      - --providers.file.filename=/etc/traefik_providers/file_provider.yml
     ports:
       - "80:80"
+      - "8080:8080"
     volumes:
-      - ./WebServerResources:/usr/local/apache2/htdocs/WebObjects/wodockerapp.woa/Contents/WebServerResources
-      - ./deploy/woconfig:/opt/Local/Library/WebObjects/Configuration
-
-  monitor:
-    build:
-      context: deploy/dockerfiles/womonitor
-      dockerfile: Dockerfile
-    ports:
-      - "56789:56789"
-    volumes:
-      - ./deploy/woconfig:/opt/Local/Library/WebObjects/Configuration
-  
-  taskbalancer:
-    build:
-      context: deploy/dockerfiles/wotaskd
-      dockerfile: Dockerfile
-    environment:
-      WEBOBJECTS_ARGS: -WOSavesAdaptorConfiguration true
-    volumes:
-      - ./deploy/woconfig:/opt/Local/Library/WebObjects/Configuration
-  
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./deploy/file_provider.yml:/etc/traefik_providers/file_provider.yml
+      
   worker1:
     build:
       context: .
       dockerfile: Dockerfile
       
   worker2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+  worker3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+  worker4:
     build:
       context: .
       dockerfile: Dockerfile

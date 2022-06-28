@@ -1,37 +1,45 @@
 version: "3.9"
-services:
 
-  apache:
-    image: lexxito/woapache:2.4-wonder7.4
+services:
+  traefik:
+    image: traefik:v2.7.0
     ports:
       - "80:80"
+      - "8080:8080" # traefik dashboard
+    command:
+      - --api.insecure=true # set to 'false' on production
+      - --api.dashboard=true # see https://docs.traefik.io/v2.0/operations/dashboard/#secure-mode for how to secure the dashboard
+      - --api.debug=true # enable additional endpoints for debugging and profiling
+      - --log.level=DEBUG # debug while we get it working, for more levels/info see https://docs.traefik.io/observability/logs/
+      - --providers.docker=true
+      - --providers.docker.swarmMode=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=proxy
+      - --entrypoints.web.address=:80
     volumes:
-      - ./WebServerResources:/usr/local/apache2/htdocs/WebObjects/wodockerapp.woa/Contents/WebServerResources
-      - ./deploy/woconfig:/opt/Local/Library/WebObjects/Configuration
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - proxy
     deploy:
-      replicas: 1
-      
-  monitor:
-    image: lexxito/womonitor:7.4-jdk11
-    ports:
-      - "56789:56789"
-    volumes:
-      - ./deploy/woconfig:/opt/Local/Library/WebObjects/Configuration
-    deploy:
-      replicas: 1
-      
-  balancer:
-    hostname: "taskbalancer"
-    image: lexxito/wotaskd:7.4-jdk11
-    environment:
-      WEBOBJECTS_ARGS: -WOSavesAdaptorConfiguration true
-    volumes:
-      - ./deploy/woconfig:/opt/Local/Library/WebObjects/Configuration
-    deploy:
-      replicas: 1
-      
+      placement:
+        constraints:
+          - node.role == manager
+  
   worker:
-    hostname: "worker{{.Task.Slot}}"
-    image: lexxito/wodockersample:wonder7.4-jdk11
+    image: lexxito/wodockersample:jdk11
+    hostname: "{{.Service.Name}}-{{.Task.Slot}}"
+    networks:
+      - proxy
     deploy:
-      replicas: 2
+      replicas: 4
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.worker.rule=Host(`127.0.0.1`) || Host(`localhost`)"
+        - "traefik.http.routers.worker.entrypoints=web"
+        - "traefik.http.services.worker.loadbalancer.server.port=2000"
+        - "traefik.http.services.worker.loadbalancer.sticky=true"
+        - "traefik.http.services.worker.loadbalancer.sticky.cookie.name=StickyCookie"
+
+networks:
+  proxy:
+#    external: true

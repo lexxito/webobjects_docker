@@ -2,9 +2,9 @@ name: wodockersample workflow
 
 on:
   push:
-    branches: [ classical_webobjects_ant_scalable ]
+    branches: [ minimized_webobjects_ant_scalable ]
   workflow_dispatch:
-    branches: [ classical_webobjects_ant_scalable ]
+    branches: [ minimized_webobjects_ant_scalable ]
 
 jobs:
 
@@ -21,7 +21,7 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
     - name: Build wodockersample Docker image
-      run: docker build . --file Dockerfile --tag lexxito/wodockersample:wonder7.4-jdk11
+      run: docker build . --file Dockerfile --tag lexxito/wodockersample:jdk11
       
     - name: Docker Push wodockersample image
-      run: docker push lexxito/wodockersample:wonder7.4-jdk11
+      run: docker push lexxito/wodockersample:jdk11
